@@ -5,6 +5,7 @@ using Application.Interfaces;
 using Infrastructure.Repositories;
 using MediatR;
 using Application;
+using API.HostedServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,10 +31,34 @@ builder.Services.AddAutoMapper(typeof(Program));
 //Repositories
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+var pargs = Environment.GetCommandLineArgs();
+bool applyMigrationsMode = pargs.Contains("-apply-migrations");
+
+if (!applyMigrationsMode)
+    //Hosted Services
+    builder.Services.AddHostedService<DatabaseMigrationsService>();
+
 var app = builder.Build();
 
 //Exception Middleware
 app.UseMiddleware<ExceptionMiddleware>();
+
+if (applyMigrationsMode)
+{
+    app.Logger.LogInformation("Applying migrations...");
+
+    using (var scope = app.Services.CreateScope())
+    {
+        await scope.ServiceProvider
+            .GetRequiredService<AppDbContext>()
+            .Database
+            .MigrateAsync();
+    }
+
+    app.Logger.LogInformation("Applying migrations completed");
+
+    return;
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
