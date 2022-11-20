@@ -6,15 +6,27 @@ using Infrastructure.Repositories;
 using MediatR;
 using Application;
 using API.HostedServices;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.PlatformAbstractions;
+using System.Reflection;
+using API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+//file path for xml comments
+var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+var fileName = typeof(Program).GetTypeInfo().Assembly.GetName().Name + ".xml";
+var xmlPath = Path.Combine(basePath, fileName);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.Configure(xmlPath);
+});
 
 //DB Connection
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

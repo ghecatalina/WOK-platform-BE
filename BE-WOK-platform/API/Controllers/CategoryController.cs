@@ -24,6 +24,12 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Creates a new catagory
+        /// </summary>
+        /// <param name="category"></param>
+        /// <exception cref="InvalidModelStateException"></exception>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateCategory(
             [FromBody]CategoryPostPutModel category)
@@ -36,6 +42,12 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetCategoryById), new { categoryId = created.Id }, dto);
         }
 
+        /// <summary>
+        /// Gets a category by Id
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <exception cref="ObjectNotFoundException"></exception>
+        /// <returns></returns>
         [HttpGet]
         [Route("{categoryId}")]
         public async Task<IActionResult> GetCategoryById(
@@ -48,6 +60,10 @@ namespace API.Controllers
             return Ok(mappedResult);
         }
 
+        /// <summary>
+        /// Gets all categories
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
@@ -58,6 +74,14 @@ namespace API.Controllers
             return Ok(mappedResult);
         }
 
+        /// <summary>
+        /// Updates a category
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <param name="request"></param>
+        /// <exception cref="ObjectNotFoundException"></exception>
+        /// <exception cref="InvalidModelStateException"></exception>
+        /// <returns></returns>
         [HttpPut]
         [Route("{categoryId}")]
         public async Task<IActionResult> UpdateCategory(
