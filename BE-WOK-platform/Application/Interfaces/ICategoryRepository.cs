@@ -4,10 +4,10 @@ namespace Application.Interfaces
 {
     public interface ICategoryRepository
     {
-        Task<Category> Create(Category category);
-        Task<Category> Update(Category category);
-        Task<Category?> Get(Guid id);
-        Task<IEnumerable<Category>> GetAll();
+        Task<Category> Create(Category category, CancellationToken ct);
+        Task<Category> Update(Category category, CancellationToken ct);
+        Task<Category?> Get(Guid id, CancellationToken ct);
+        Task<IEnumerable<Category>> GetAll(CancellationToken ct);
 
     }
 }
