@@ -34,6 +34,11 @@ namespace API.Middleware
                 customException = new CustomErrorResponse(exception);
                 statusCode = StatusCodes.Status404NotFound;
             }
+            else if (exception is InvalidModelStateException)
+            {
+                customException = new CustomErrorResponse(exception);
+                statusCode = StatusCodes.Status400BadRequest;
+            }
             else
             {
                 customException = new CustomErrorResponse(exception);
