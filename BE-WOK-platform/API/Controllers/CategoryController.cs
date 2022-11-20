@@ -28,7 +28,7 @@ namespace API.Controllers
         public async Task<IActionResult> CreateCategory(
             [FromBody]CategoryPostPutModel category)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var command = _mapper.Map<CreateCategoryCommand>(category);
