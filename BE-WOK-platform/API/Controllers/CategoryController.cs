@@ -28,9 +28,6 @@ namespace API.Controllers
         public async Task<IActionResult> CreateCategory(
             [FromBody]CategoryPostPutModel category)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var command = _mapper.Map<CreateCategoryCommand>(category);
 
             var created = await _mediator.Send(command);
@@ -67,9 +64,6 @@ namespace API.Controllers
             Guid categoryId,
             [FromBody]CategoryPostPutModel request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             var command = _mapper.Map<UpdateCategoryCommand>(request);
             command.Id = categoryId;
             var result = await _mediator.Send(command);
