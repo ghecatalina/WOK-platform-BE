@@ -17,14 +17,14 @@ namespace Application.Categories.Commands.UpdateCategory
 
         public async Task<Category> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = await _categoryRepository.Get(request.Id)
+            var category = await _categoryRepository.Get(request.Id, cancellationToken)
                 ?? throw new ObjectNotFoundException(
                     nameof(Category),
                     request.Id);
 
             category.Name = request.Name;
 
-            return await _categoryRepository.Update(category);
+            return await _categoryRepository.Update(category, cancellationToken);
         }
     }
 }

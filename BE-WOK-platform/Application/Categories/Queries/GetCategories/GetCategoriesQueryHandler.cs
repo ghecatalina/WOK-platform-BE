@@ -16,7 +16,7 @@ namespace Application.Categories.Queries.GetCategories
 
         public async Task<IEnumerable<Category>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
         {
-            return await _categoryRepository.GetAll();
+            return await _categoryRepository.GetAll(cancellationToken);
         }
     }
 }

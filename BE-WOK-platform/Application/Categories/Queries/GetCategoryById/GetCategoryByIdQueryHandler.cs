@@ -17,7 +17,7 @@ namespace Application.Categories.Queries.GetCategoryById
 
         public async Task<Category> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
-            var category = await _categoryRepository.Get(request.Id)
+            var category = await _categoryRepository.Get(request.Id, cancellationToken)
                 ?? throw new ObjectNotFoundException(
                     nameof(Category),
                     request.Id);

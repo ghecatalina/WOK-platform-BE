@@ -18,7 +18,7 @@ namespace Application.Categories.Commands.CreateCategoryCommand
         {
             var category = new Category { Name= request.Name };
 
-            var result = await _categoryRepository.Create(category);
+            var result = await _categoryRepository.Create(category, cancellationToken);
 
             return result;
         }
