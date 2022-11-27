@@ -8,6 +8,7 @@ namespace Infrastructure.Persistence
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<DailyMenu> DailyMenu { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -38,6 +39,19 @@ namespace Infrastructure.Persistence
 
                 attr.HasOne(x => x.Category)
                 .WithMany(x => x.Items);
+            });
+
+            modelBuilder.Entity<DailyMenu>(attr =>
+            {
+                attr.HasOne(x => x.FirstDish)
+                .WithOne()
+                .OnDelete(DeleteBehavior.NoAction);
+
+                attr.HasOne(x => x.SecondDish)
+                .WithOne()
+                .OnDelete(DeleteBehavior.NoAction);
+
+                attr.ToTable("DailyMenu");
             });
         }
 
