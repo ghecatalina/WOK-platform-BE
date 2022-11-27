@@ -3,6 +3,7 @@ using Application.Categories.Commands.CreateCategoryCommand;
 using Application.Categories.Commands.UpdateCategory;
 using Application.Categories.Queries.GetCategories;
 using Application.Categories.Queries.GetCategoryById;
+using Application.Exceptions;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -90,10 +91,9 @@ namespace API.Controllers
         {
             var command = _mapper.Map<UpdateCategoryCommand>(request);
             command.Id = categoryId;
-            var result = await _mediator.Send(command);
+            await _mediator.Send(command);
 
-            var mappedResult = _mapper.Map<CategoryGetModel>(result);
-            return Ok(mappedResult);
+            return NoContent();
         }
     }
 }
