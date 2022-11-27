@@ -28,6 +28,7 @@ namespace Application.Items.Commands.UpdateItem
             item.Quantity= request.Quantity;
             item.Photo = request.Photo;
             item.Ingredients= request.Ingredients;
+            item.Price = request.Price;
 
             return await _itemRepository.Update(item, cancellationToken);
         }
