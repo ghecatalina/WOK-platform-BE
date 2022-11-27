@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Infrastructure.SeedData;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
@@ -15,6 +16,9 @@ namespace Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // seed data
+            modelBuilder.SeedData();
 
             modelBuilder.Entity<Category>(attr =>
             {
