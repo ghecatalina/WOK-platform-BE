@@ -41,6 +41,12 @@ namespace Infrastructure.Repositories
                 .ToListAsync(ct);
         }
 
+        public async Task<Item?> GetById(Guid itemId, CancellationToken ct)
+        {
+            return await _context.Items
+                .FirstOrDefaultAsync(x => x.Id == itemId, ct);
+        }
+
         public async Task<Item> Update(Item item, CancellationToken ct)
         {
             _context.Items.Update(item);
