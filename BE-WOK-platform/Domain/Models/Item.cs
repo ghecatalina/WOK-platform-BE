@@ -8,6 +8,7 @@
         public string Ingredients { get; set; }
         public string? Description { get; set; }
         public string Photo { get; set; }
+        public double Price { get; set; }
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
     }

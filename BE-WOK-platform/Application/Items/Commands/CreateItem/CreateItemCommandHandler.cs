@@ -32,6 +32,7 @@ namespace Application.Items.Commands.CreateItem
                 Ingredients = request.Ingredients,
                 Description = request.Description,
                 Photo = request.Photo,
+                Price = request.Price,
                 CategoryId = category.Id,
                 Category = category,
             };
