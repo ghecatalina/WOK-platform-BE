@@ -14,6 +14,12 @@
 
         }
 
+        public ObjectNotFoundException(string type)
+            : base($"Object of type {type} doesn't exist.")
+        {
+
+        }
+
         public ObjectNotFoundException(string type, params (string key, object value)[] keyFields)
             : base($"Object of type {type} with {string.Join(" and ", keyFields.Select(p => $"{p.key}:{p.value}"))} doesn't exist.")
         {
