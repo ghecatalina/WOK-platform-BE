@@ -6,6 +6,7 @@ namespace Infrastructure.Persistence
     public class AppDbContext : DbContext
     {
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Item> Items { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -21,6 +22,18 @@ namespace Infrastructure.Persistence
 
                 attr.Property(x => x.Name)
                     .HasMaxLength(50);
+
+                attr.HasMany(x => x.Items)
+                .WithOne(x => x.Category)
+                .HasForeignKey(x => x.CategoryId);
+            });
+
+            modelBuilder.Entity<Item>(attr =>
+            {
+                attr.HasKey("Id");
+
+                attr.HasOne(x => x.Category)
+                .WithMany(x => x.Items);
             });
         }
 
