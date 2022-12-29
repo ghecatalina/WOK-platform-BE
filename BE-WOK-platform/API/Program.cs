@@ -6,7 +6,6 @@ using Infrastructure.Repositories;
 using MediatR;
 using Application;
 using API.HostedServices;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.Reflection;
 using API.Extensions;

@@ -9,6 +9,9 @@ namespace Infrastructure.SeedData
         {
             modelBuilder.Entity<Category>()
                 .HasData(DefaultCategories.GetDefaultCategories());
+
+            modelBuilder.Entity<DailyMenu>()
+                .HasData(DefaultDailyMenu.GetDefaultDailyMenu());
         }
     }
 }

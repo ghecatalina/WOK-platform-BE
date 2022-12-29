@@ -23,15 +23,17 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Creates or Updates the Daily Menu
+        /// Updates the Daily Menu
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPut]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> AddOrUpdateDailyMenu(
             [FromBody]DailyMenuPutModel request)
         {
-            var command = new AddOrUpdateDailyMenuCommand 
+            var command = new UpdateDailyMenuCommand 
             { 
                 FirstDish = request.FirstDish,
                 SecondDish = request.SecondDish,
@@ -47,6 +49,8 @@ namespace API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(typeof(DailyMenuGetModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetDailyMenu()
         {
             var query = new GetDailyMenuQuery();
