@@ -2,7 +2,7 @@
 
 namespace Application.DailyMenus.Commands.AddOrUpdateDailyMenu
 {
-    public class AddOrUpdateDailyMenuCommand : IRequest<Unit>
+    public class UpdateDailyMenuCommand : IRequest<Unit>
     {
         public Guid FirstDish { get; set; }
         public Guid SecondDish { get; set; }
