@@ -9,6 +9,7 @@ namespace Infrastructure.Persistence
         public DbSet<Category> Categories { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<DailyMenu> DailyMenu { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -21,6 +22,7 @@ namespace Infrastructure.Persistence
             // seed data
             modelBuilder.SeedData();
 
+            #region Category
             modelBuilder.Entity<Category>(attr =>
             {
                 attr.HasKey("Id");
@@ -32,7 +34,9 @@ namespace Infrastructure.Persistence
                 .WithOne(x => x.Category)
                 .HasForeignKey(x => x.CategoryId);
             });
+            #endregion
 
+            #region Item
             modelBuilder.Entity<Item>(attr =>
             {
                 attr.HasKey("Id");
@@ -40,7 +44,9 @@ namespace Infrastructure.Persistence
                 attr.HasOne(x => x.Category)
                 .WithMany(x => x.Items);
             });
+            #endregion
 
+            #region DailyMenu
             modelBuilder.Entity<DailyMenu>(attr =>
             {
                 attr.HasOne(x => x.FirstDish)
@@ -53,6 +59,16 @@ namespace Infrastructure.Persistence
 
                 attr.ToTable("DailyMenu");
             });
+            #endregion
+
+            #region Reservation
+            modelBuilder.Entity<Reservation>(attr =>
+            {
+                attr.HasKey("Id");
+
+                attr.ToTable("Reservations");
+            });
+            #endregion
         }
 
     }
