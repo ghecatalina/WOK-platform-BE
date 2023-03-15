@@ -43,6 +43,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IDailyMenuRepository, DailyMenuRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 
 var pargs = Environment.GetCommandLineArgs();
 bool applyMigrationsMode = pargs.Contains("-apply-migrations");

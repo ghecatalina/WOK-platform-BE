@@ -34,6 +34,16 @@ namespace API.Middleware
                 customException = new CustomErrorResponse(exception);
                 statusCode = StatusCodes.Status404NotFound;
             }
+            else if (exception is DuplicateItemException)
+            {
+                customException = new CustomErrorResponse(exception);
+                statusCode = StatusCodes.Status409Conflict;
+            }
+            else if (exception is InvalidDateTimeException)
+            {
+                customException = new CustomErrorResponse(exception);
+                statusCode = StatusCodes.Status409Conflict;
+            }
             else if (exception is InvalidModelStateException)
             {
                 customException = new CustomErrorResponse(exception);
