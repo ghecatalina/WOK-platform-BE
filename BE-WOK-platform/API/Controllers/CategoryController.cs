@@ -28,10 +28,10 @@ namespace API.Controllers
         /// <summary>
         /// Creates a new catagory
         /// </summary>
-        /// <param name="category"></param>
         /// <exception cref="InvalidModelStateException"></exception>
-        /// <returns></returns>
+        /// <response code="201">Category successfully created</response>
         [HttpPost]
+        [ProducesResponseType(typeof(CategoryGetModel), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateCategory(
             [FromBody]CategoryPostPutModel category)
         {
@@ -46,45 +46,47 @@ namespace API.Controllers
         /// <summary>
         /// Gets a category by Id
         /// </summary>
-        /// <param name="categoryId"></param>
         /// <exception cref="ObjectNotFoundException"></exception>
-        /// <returns></returns>
+        /// <response code="200">Category successfully retrived</response>
+        /// <response code="404">Category with given id does not exist</response>
         [HttpGet]
         [Route("{categoryId}")]
-        public async Task<IActionResult> GetCategoryById(
+        [ProducesResponseType(typeof(CategoryGetModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        public async Task<CategoryGetModel> GetCategoryById(
             Guid categoryId)
         {
             var query = new GetCategoryByIdQuery { Id = categoryId };
             var result = await _mediator.Send(query);
 
-            var mappedResult = _mapper.Map<CategoryGetModel>(result);
-            return Ok(mappedResult);
+            return _mapper.Map<CategoryGetModel>(result);
         }
 
         /// <summary>
         /// Gets all categories
         /// </summary>
-        /// <returns></returns>
+        /// <response code="200">Categories successfully retrieved</response>
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories()
+        [ProducesResponseType(typeof(IEnumerable<CategoryGetModel>), StatusCodes.Status200OK)]
+        public async Task<IEnumerable<CategoryGetModel>> GetAllCategories()
         {
             var query = new GetCategoriesQuery();
             var result = await _mediator.Send(query);
 
-            var mappedResult = _mapper.Map<IEnumerable<CategoryGetModel>>(result);
-            return Ok(mappedResult);
+            return _mapper.Map<IEnumerable<CategoryGetModel>>(result);
         }
 
         /// <summary>
         /// Updates a category
         /// </summary>
-        /// <param name="categoryId"></param>
-        /// <param name="request"></param>
         /// <exception cref="ObjectNotFoundException"></exception>
         /// <exception cref="InvalidModelStateException"></exception>
-        /// <returns></returns>
+        /// <response code="204">Category successfully updated</response>
+        /// <response code="404">Category with given id not found</response>
         [HttpPut]
         [Route("{categoryId}")]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateCategory(
             Guid categoryId,
             [FromBody]CategoryPostPutModel request)
