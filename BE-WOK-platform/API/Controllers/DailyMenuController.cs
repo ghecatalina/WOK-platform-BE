@@ -25,8 +25,8 @@ namespace API.Controllers
         /// <summary>
         /// Updates the Daily Menu
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <response code="204">Daily Menu successfully updated</response>
+        /// <response code="404">FirstDish and/or SecondDish with given id do not exist</response>
         [HttpPut]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
@@ -47,7 +47,8 @@ namespace API.Controllers
         /// <summary>
         /// Gets the Daily Menu
         /// </summary>
-        /// <returns></returns>
+        /// <response code="200">Daily Menu successfully retrieved</response>
+        /// <response code="404">Daily Menu does not exist</response>
         [HttpGet]
         [ProducesResponseType(typeof(DailyMenuGetModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
