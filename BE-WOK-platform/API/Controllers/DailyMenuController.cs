@@ -3,6 +3,7 @@ using Application.DailyMenus.Commands.AddOrUpdateDailyMenu;
 using Application.DailyMenus.Queries.GetDailyMenu;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -21,13 +22,13 @@ namespace API.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
-
+        
         /// <summary>
         /// Updates the Daily Menu
         /// </summary>
         /// <response code="204">Daily Menu successfully updated</response>
         /// <response code="404">FirstDish and/or SecondDish with given id do not exist</response>
-        [HttpPut]
+        [HttpPost, Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> AddOrUpdateDailyMenu(

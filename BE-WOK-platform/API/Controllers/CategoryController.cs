@@ -6,6 +6,7 @@ using Application.Categories.Queries.GetCategoryById;
 using Application.Exceptions;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -30,7 +31,7 @@ namespace API.Controllers
         /// </summary>
         /// <exception cref="InvalidModelStateException"></exception>
         /// <response code="201">Category successfully created</response>
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(CategoryGetModel), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateCategory(
             [FromBody]CategoryPostPutModel category)
@@ -66,7 +67,7 @@ namespace API.Controllers
         /// Gets all categories
         /// </summary>
         /// <response code="200">Categories successfully retrieved</response>
-        [HttpGet]
+        [HttpGet, Authorize]
         [ProducesResponseType(typeof(IEnumerable<CategoryGetModel>), StatusCodes.Status200OK)]
         public async Task<IEnumerable<CategoryGetModel>> GetAllCategories()
         {
@@ -83,7 +84,7 @@ namespace API.Controllers
         /// <exception cref="InvalidModelStateException"></exception>
         /// <response code="204">Category successfully updated</response>
         /// <response code="404">Category with given id not found</response>
-        [HttpPut]
+        [HttpPost, Authorize(Roles = "Admin")]
         [Route("{categoryId}")]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
