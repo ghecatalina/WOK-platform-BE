@@ -44,6 +44,11 @@ namespace API.Middleware
                 customException = new CustomErrorResponse(exception);
                 statusCode = StatusCodes.Status409Conflict;
             }
+            else if (exception is InvalidCredentialsException)
+            {
+                customException = new CustomErrorResponse(exception);
+                statusCode = StatusCodes.Status400BadRequest;
+            }
             else if (exception is InvalidModelStateException)
             {
                 customException = new CustomErrorResponse(exception);
