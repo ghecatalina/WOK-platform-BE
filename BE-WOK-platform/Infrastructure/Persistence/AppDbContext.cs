@@ -1,10 +1,11 @@
 ﻿using Domain.Models;
 using Infrastructure.SeedData;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User, Role, Guid>
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Item> Items { get; set; }
