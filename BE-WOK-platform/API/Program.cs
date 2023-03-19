@@ -9,6 +9,9 @@ using API.HostedServices;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.Reflection;
 using API.Extensions;
+using Domain.Models;
+using Microsoft.AspNetCore.Identity;
+using API.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +28,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.Configure(xmlPath);
+    options.AddSecurity();
 });
 
 //DB Connection
@@ -32,6 +36,11 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString)
     );
+
+//Identity
+builder.Services.AddIdentity<User, Role>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 //MediatR
 builder.Services.AddMediatR(typeof(AssemblyMarker));
@@ -44,6 +53,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IDailyMenuRepository, DailyMenuRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var pargs = Environment.GetCommandLineArgs();
 bool applyMigrationsMode = pargs.Contains("-apply-migrations");
@@ -51,6 +61,11 @@ bool applyMigrationsMode = pargs.Contains("-apply-migrations");
 if (!applyMigrationsMode)
     //Hosted Services
     builder.Services.AddHostedService<DatabaseMigrationsService>();
+
+//Jwt Auth
+var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
+builder.Services.AddAuth(jwtSettings);
 
 var app = builder.Build();
 
@@ -83,6 +98,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
