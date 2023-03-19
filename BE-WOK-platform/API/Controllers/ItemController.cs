@@ -7,6 +7,7 @@ using Application.Items.Queries.GetItemById;
 using Application.Items.Queries.GetItemsByCategory;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -25,7 +26,7 @@ namespace API.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
-
+        
         /// <summary>
         /// Creates a new item
         /// </summary>
@@ -33,7 +34,7 @@ namespace API.Controllers
         /// <exception cref="ObjectNotFoundException"></exception>
         /// <response code="201">Item successfully created</response>
         /// <response code="404">Category with given id does not exist.</response>
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(ItemGetModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> CreateItem(
@@ -93,7 +94,7 @@ namespace API.Controllers
         /// <exception cref="ObjectNotFoundException"></exception>
         /// <response code="204">Item successfully updated</response>
         /// <response code="404">Category or Item with given id does not exist.</response>
-        [HttpPut]
+        [HttpPut, Authorize(Roles = "Admin")]
         [Route("{itemId}")]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
@@ -117,7 +118,7 @@ namespace API.Controllers
         /// <exception cref="ObjectNotFoundException"></exception>
         /// <response code="204">Item successfully deleted</response>
         /// <response code="404">Category or Item with given id does not exist.</response>
-        [HttpDelete]
+        [HttpDelete, Authorize(Roles = "Admin")]
         [Route("{itemId}")]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
