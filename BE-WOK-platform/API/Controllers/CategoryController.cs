@@ -67,7 +67,7 @@ namespace API.Controllers
         /// Gets all categories
         /// </summary>
         /// <response code="200">Categories successfully retrieved</response>
-        [HttpGet, Authorize]
+        [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CategoryGetModel>), StatusCodes.Status200OK)]
         public async Task<IEnumerable<CategoryGetModel>> GetAllCategories()
         {
