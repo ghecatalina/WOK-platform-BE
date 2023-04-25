@@ -51,7 +51,7 @@ namespace API.Controllers
             var query = _mapper.Map<LoginUserQuery>(request);
             var (user, roles) = await _mediator.Send(query);
 
-            return Ok(new { Tk = GenerateJwt(user, roles), user.Id, Roles = roles });
+            return Ok(new { Tk = GenerateJwt(user, roles), user.Id, Role = roles.FirstOrDefault() });
         }
 
         [HttpPost]

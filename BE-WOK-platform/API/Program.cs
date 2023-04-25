@@ -54,6 +54,7 @@ builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IDailyMenuRepository, DailyMenuRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
 var pargs = Environment.GetCommandLineArgs();
 bool applyMigrationsMode = pargs.Contains("-apply-migrations");

@@ -28,7 +28,7 @@ namespace API.Controllers
         /// </summary>
         /// <response code="204">Daily Menu successfully updated</response>
         /// <response code="404">FirstDish and/or SecondDish with given id do not exist</response>
-        [HttpPost, Authorize(Roles = "Admin")]
+        [HttpPut, Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> AddOrUpdateDailyMenu(
@@ -38,6 +38,7 @@ namespace API.Controllers
             { 
                 FirstDish = request.FirstDish,
                 SecondDish = request.SecondDish,
+                Price = request.Price,
             };
 
             await _mediator.Send(command);

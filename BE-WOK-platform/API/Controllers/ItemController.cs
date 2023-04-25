@@ -120,16 +120,16 @@ namespace API.Controllers
         /// <response code="404">Category or Item with given id does not exist.</response>
         [HttpDelete, Authorize(Roles = "Admin")]
         [Route("{itemId}")]
-        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ItemGetModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteItem(
             Guid categoryId,
             Guid itemId)
         {
             var command = new DeleteItemCommand { CategoryId = categoryId, Id = itemId };
-            await _mediator.Send(command);
+            var result = await _mediator.Send(command);
 
-            return NoContent();
+            return Ok(_mapper.Map<ItemGetModel>(result));
         }
     }
 }
