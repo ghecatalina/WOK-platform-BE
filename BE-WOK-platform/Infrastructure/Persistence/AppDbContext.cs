@@ -11,6 +11,8 @@ namespace Infrastructure.Persistence
         public DbSet<Item> Items { get; set; }
         public DbSet<DailyMenu> DailyMenu { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Table> Tables { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -63,11 +65,36 @@ namespace Infrastructure.Persistence
             #endregion
 
             #region Reservation
+            modelBuilder.Entity<Table>(attr =>
+            {
+                attr.HasKey("Id");
+            });
+
             modelBuilder.Entity<Reservation>(attr =>
             {
                 attr.HasKey("Id");
+                attr.HasOne<Table>()
+                    .WithMany()
+                    .HasForeignKey(x => x.TableId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 attr.ToTable("Reservations");
+            });
+            #endregion
+
+            #region Contact
+            modelBuilder.Entity<Contact>(attr =>
+            {
+                attr.HasKey("Id");
+
+                attr.Property(x => x.Name)
+                .HasMaxLength(50);
+
+                attr.Property(x => x.PhoneNumber)
+                .HasMaxLength(15);
+
+                attr.Property(x => x.Complaint)
+                .HasMaxLength(500);
             });
             #endregion
         }

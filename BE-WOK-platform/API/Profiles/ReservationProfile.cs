@@ -13,6 +13,7 @@ namespace API.Profiles
             CreateMap<ReservationPostModel, CreateReservationCommand>();
             CreateMap<Reservation, ReservationGetModel>();
             CreateMap<ReservationByTable, ReservationByTableGetModel>();
+            CreateMap<Table, TableGetModel>();
         }
     }
 }

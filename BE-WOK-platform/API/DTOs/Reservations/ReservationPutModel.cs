@@ -1,12 +1,9 @@
 ﻿namespace API.DTOs.Reservations
 {
-    public class ReservationPostModel
+    public class ReservationPutModel
     {
-        public int TableId { get; set; }
-        public int NoOfPeople { get; set; }
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public string? Details { get; set; }
-        public DateTime ReservationTime { get; set; }
     }
 }

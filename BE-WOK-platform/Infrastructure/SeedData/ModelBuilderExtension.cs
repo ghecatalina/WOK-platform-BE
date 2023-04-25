@@ -12,6 +12,9 @@ namespace Infrastructure.SeedData
 
             modelBuilder.Entity<DailyMenu>()
                 .HasData(DefaultDailyMenu.GetDefaultDailyMenu());
+
+            modelBuilder.Entity<Table>()
+                .HasData(DefaultTables.GetDefaultTables());
         }
     }
 }

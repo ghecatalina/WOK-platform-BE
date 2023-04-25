@@ -82,11 +82,11 @@ namespace API.Controllers
         /// </summary>
         /// <exception cref="ObjectNotFoundException"></exception>
         /// <exception cref="InvalidModelStateException"></exception>
-        /// <response code="204">Category successfully updated</response>
+        /// <response code="200">Category successfully updated</response>
         /// <response code="404">Category with given id not found</response>
-        [HttpPost, Authorize(Roles = "Admin")]
+        [HttpPut, Authorize(Roles = "Admin")]
         [Route("{categoryId}")]
-        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(CategoryGetModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateCategory(
             Guid categoryId,
@@ -94,9 +94,9 @@ namespace API.Controllers
         {
             var command = _mapper.Map<UpdateCategoryCommand>(request);
             command.Id = categoryId;
-            await _mediator.Send(command);
+            var result = await _mediator.Send(command);
 
-            return NoContent();
+            return Ok(_mapper.Map<CategoryGetModel>(result));
         }
     }
 }

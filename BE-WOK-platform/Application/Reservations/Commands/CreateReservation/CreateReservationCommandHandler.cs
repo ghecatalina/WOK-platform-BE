@@ -20,21 +20,24 @@ namespace Application.Reservations.Commands.CreateReservation
             {
                 throw new InvalidDateTimeException(request.ReservationTime);
             }
-            var existingReservation = await _reservationRepository.GetByTableAndDate(request.TableNumber, request.ReservationTime.Date, cancellationToken);
+            var existingReservation = await _reservationRepository.GetByTableAndDate(request.TableId, request.ReservationTime.Date, cancellationToken);
             if (existingReservation != null)
             {
                 throw new DuplicateItemException(
                     nameof(Reservation),
                     new() { 
-                        { nameof(Reservation.TableNumber), request.TableNumber },
+                        { nameof(Reservation.TableId), request.TableId },
                         { nameof(Reservation.ReservationTime), request.ReservationTime },
                     });
             }
 
             var reservationToCreate = new Reservation
             {
-                TableNumber = request.TableNumber,
+                TableId = request.TableId,
                 ReservationTime = request.ReservationTime,
+                Name = request.Name,
+                PhoneNumber = request.PhoneNumber,
+                Details = request.Details
             };
 
             return await _reservationRepository.Create(reservationToCreate, cancellationToken);
