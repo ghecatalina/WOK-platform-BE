@@ -12,6 +12,7 @@ using API.Extensions;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using API.Settings;
+using API.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +49,9 @@ builder.Services.AddMediatR(typeof(AssemblyMarker));
 //AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
 
+//SignalR
+builder.Services.AddSignalR();
+
 //Repositories
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
@@ -55,6 +59,7 @@ builder.Services.AddScoped<IDailyMenuRepository, DailyMenuRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 var pargs = Environment.GetCommandLineArgs();
 bool applyMigrationsMode = pargs.Contains("-apply-migrations");
@@ -75,11 +80,15 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins("http://localhost:3000")
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
 var app = builder.Build();
+
+//SignalR
+app.MapHub<MessageHub>("/messages");
 
 //Exception Middleware
 app.UseMiddleware<ExceptionMiddleware>();

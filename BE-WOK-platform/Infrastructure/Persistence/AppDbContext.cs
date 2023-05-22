@@ -13,6 +13,7 @@ namespace Infrastructure.Persistence
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -97,6 +98,11 @@ namespace Infrastructure.Persistence
                 .HasMaxLength(500);
             });
             #endregion
+
+            modelBuilder.Entity<Message>(attr =>
+            {
+                attr.HasKey("Id");
+            });
         }
 
     }
