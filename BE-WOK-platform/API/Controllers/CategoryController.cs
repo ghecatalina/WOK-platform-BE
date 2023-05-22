@@ -1,5 +1,6 @@
 ﻿using API.DTOs.Categories;
 using Application.Categories.Commands.CreateCategoryCommand;
+using Application.Categories.Commands.DeleteCategory;
 using Application.Categories.Commands.UpdateCategory;
 using Application.Categories.Queries.GetCategories;
 using Application.Categories.Queries.GetCategoryById;
@@ -97,6 +98,19 @@ namespace API.Controllers
             var result = await _mediator.Send(command);
 
             return Ok(_mapper.Map<CategoryGetModel>(result));
+        }
+
+        [HttpDelete, Authorize(Roles = "Admin")]
+        [Route("{categoryId}")]
+        [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(
+            Guid categoryId)
+        {
+            var command = new DeleteCategoryCommand { Id = categoryId };
+            await _mediator.Send(command);
+
+            return NoContent();
         }
     }
 }
