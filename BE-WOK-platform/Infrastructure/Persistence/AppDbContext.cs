@@ -46,7 +46,9 @@ namespace Infrastructure.Persistence
                 attr.HasKey("Id");
 
                 attr.HasOne(x => x.Category)
-                .WithMany(x => x.Items);
+                .WithMany(x => x.Items)
+                .HasForeignKey(x => x.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
             });
             #endregion
 

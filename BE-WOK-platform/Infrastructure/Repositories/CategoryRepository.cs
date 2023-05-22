@@ -51,5 +51,13 @@ namespace Infrastructure.Repositories
 
             return category;    
         }
+
+        public async Task Delete(
+            Category category,
+            CancellationToken ct)
+        {
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync(ct);
+        }
     }
 }
