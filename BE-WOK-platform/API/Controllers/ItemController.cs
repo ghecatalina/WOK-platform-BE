@@ -47,7 +47,9 @@ namespace API.Controllers
             var created = await _mediator.Send(command);
             var dto = _mapper.Map<ItemGetModel>(created);
 
-            return CreatedAtAction(nameof(GetItemById), new { categoryId = created.CategoryId, itemId = created.Id }, dto);
+            return CreatedAtAction(
+                nameof(GetItemById), 
+                new { categoryId = created.CategoryId, itemId = created.Id }, dto);
         }
 
         /// <summary>
