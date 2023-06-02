@@ -16,7 +16,7 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Message>> GetAll(CancellationToken ct)
         {
-            var today = DateTime.Now.Date;
+            var today = DateTime.UtcNow.Date;
 
             return await _context.Messages.AsNoTracking()
                 .Where(x => x.Created >= today)
