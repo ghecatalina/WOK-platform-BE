@@ -46,7 +46,7 @@ namespace Infrastructure.Repositories
                                };
 
             return await reservations
-                .OrderBy(x => x.Name)
+                .OrderBy(x => x.Date)
                 .ToListAsync(ct);
         }
 
@@ -56,7 +56,7 @@ namespace Infrastructure.Repositories
             CancellationToken ct)
         {
             return await _context.Reservations.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.TableId == tableNumber && x.ReservationTime.Date == date.Date,
+                .FirstOrDefaultAsync(x => x.TableId == tableNumber && x.ReservationTime == date,
                 ct);
         }
 
@@ -70,7 +70,7 @@ namespace Infrastructure.Repositories
 
             var reservedTablesId = _context.Reservations.AsNoTracking()
                 .Where(x => x.ReservationTime >= reservationDate
-                && reservationDate.Date == reservationDate.Date)
+                && x.ReservationTime.Date == reservationDate.Date)
                 .Select(x => x.TableId);
 
             var availableTables = tables

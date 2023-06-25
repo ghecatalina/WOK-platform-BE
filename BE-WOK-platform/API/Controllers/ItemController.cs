@@ -131,7 +131,7 @@ namespace API.Controllers
             var command = new DeleteItemCommand { CategoryId = categoryId, Id = itemId };
             var result = await _mediator.Send(command);
 
-            return Ok(_mapper.Map<ItemGetModel>(result));
+            return NoContent();
         }
     }
 }
