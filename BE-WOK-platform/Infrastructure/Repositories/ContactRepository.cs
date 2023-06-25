@@ -22,6 +22,7 @@ namespace Infrastructure.Repositories
 
             return await _context.Contacts.AsNoTracking()
                 .Where(x => x.Date == dateToFilter)
+                .OrderBy(x => x.Name)
                 .ToListAsync(ct);
         }
 
